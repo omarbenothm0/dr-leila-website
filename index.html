@@ -6,7 +6,7 @@
 <title>Dr Leila Bouhamed Karray</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box }
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
 
 :root {
   --bg: #f4f2eb;
@@ -282,10 +282,13 @@ section.padded { padding:7rem 2.5rem; position:relative; z-index:1; }
 .section-title em { font-style:italic; color:var(--green); }
 
 .services-section { background:var(--surface); }
+.tabs-wrapper { position: relative; }
 .tabs {
   display:flex; border-bottom:1.5px solid var(--border);
   margin-bottom:3rem; overflow-x:auto; gap:0;
+  scrollbar-width: none;
 }
+.tabs::-webkit-scrollbar { display: none; }
 .tab-btn {
   background:none; border:none;
   padding:1rem 2rem;
@@ -316,6 +319,52 @@ section.padded { padding:7rem 2.5rem; position:relative; z-index:1; }
   transition:all 0.2s; cursor:default;
 }
 .condition-tag:hover { border-color:var(--green-border); color:var(--green); background:var(--green-dim); }
+
+/* ── TAB DOTS (mobile only) ── */
+.tab-dots {
+  display: none;
+  justify-content: center;
+  gap: 6px;
+  margin-top: -1.8rem;
+  margin-bottom: 1.8rem;
+}
+.tab-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--border2);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.25s;
+}
+.tab-dot.active {
+  background: var(--green);
+  width: 20px;
+  border-radius: 4px;
+}
+
+/* ── TAB SWIPE HINT (mobile only) ── */
+.tab-swipe-hint {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-top: -2rem;
+  margin-bottom: 1.2rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: 0.7;
+}
+.tab-swipe-hint svg {
+  width: 14px; height: 14px;
+  fill: none;
+  stroke: var(--muted);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
 
 .accordion {
   border:1px solid var(--border2); border-radius:14px;
@@ -572,7 +621,7 @@ footer p { font-size:0.73rem; color:rgba(255,255,255,0.42); letter-spacing:0.06e
     gap: 2rem;
     min-height: auto;
   }
-  .hero-photo { display: none; } /* hide placeholder photo on mobile */
+  .hero-photo { display: none; }
   .hero-tag { font-size: 0.62rem; margin-bottom: 1.4rem; }
   .hero h1 { font-size: 2.6rem; }
   .hero-sub { font-size: 0.72rem; }
@@ -599,7 +648,7 @@ footer p { font-size:0.73rem; color:rgba(255,255,255,0.42); letter-spacing:0.06e
   .section-title { font-size: 1.75rem; margin-bottom: 2rem; }
 
   /* ── SERVICES TABS ── */
-  .tabs { gap: 0; }
+  .tabs { gap: 0; margin-bottom: 1.2rem; }
   .tab-btn { padding: 0.85rem 1rem; font-size: 0.68rem; }
   .service-intro { font-size: 0.88rem; }
   .conditions-grid { gap: 0.5rem; }
@@ -607,6 +656,10 @@ footer p { font-size:0.73rem; color:rgba(255,255,255,0.42); letter-spacing:0.06e
   .accordion-header { padding: 1rem 1.2rem; }
   .accordion-header h3 { font-size: 1.05rem; }
   .accordion-body { padding: 1.2rem; }
+
+  /* ── TAB DOTS visible on mobile ── */
+  .tab-dots { display: flex; }
+  .tab-swipe-hint { display: flex; }
 
   /* ── GALLERY ── */
   .gallery-grid {
@@ -858,11 +911,29 @@ footer p { font-size:0.73rem; color:rgba(255,255,255,0.42); letter-spacing:0.06e
   <div class="section-inner">
     <span class="section-eyebrow reveal">Nos spécialités</span>
     <h2 class="section-title reveal">Des soins adaptés<br>à chaque <em>patient</em></h2>
-    <div class="tabs">
-      <button class="tab-btn active" onclick="showTab('hypno',this)">Hypnothérapie</button>
-      <button class="tab-btn" onclick="showTab('esthet',this)">Médecine Esthétique</button>
-      <button class="tab-btn" onclick="showTab('chinoise',this)">Médecine Chinoise</button>
+
+    <div class="tabs-wrapper">
+      <div class="tabs" id="tabsBar">
+        <button class="tab-btn active" onclick="showTab('hypno',this)">Hypnothérapie</button>
+        <button class="tab-btn" onclick="showTab('esthet',this)">Médecine Esthétique</button>
+        <button class="tab-btn" onclick="showTab('chinoise',this)">Médecine Chinoise</button>
+      </div>
+
+      <!-- dots shown only on mobile -->
+      <div class="tab-dots" id="tabDots">
+        <button class="tab-dot active" onclick="showTabByIndex(0)"></button>
+        <button class="tab-dot" onclick="showTabByIndex(1)"></button>
+        <button class="tab-dot" onclick="showTabByIndex(2)"></button>
+      </div>
+
+      <!-- swipe hint shown only on mobile -->
+      <div class="tab-swipe-hint" id="tabSwipeHint">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        Glissez pour voir plus
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
     </div>
+
     <div id="tab-hypno" class="tab-content active">
       <div style="max-width:660px">
         <p class="service-intro">Une thérapie douce qui agit sur l'esprit pour traiter des troubles psychologiques et physiques. Les séances sont personnalisées — une seule peut suffire, ou plusieurs selon les besoins.</p>
@@ -1171,12 +1242,51 @@ function closeMobileMenu() {
   mobileMenu.classList.remove('open');
 }
 
-function showTab(id, btn){
-  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('tab-'+id).classList.add('active');
-  btn.classList.add('active');
+// Tab IDs in order
+const TAB_IDS = ['hypno', 'esthet', 'chinoise'];
+let currentTabIndex = 0;
+
+function updateTabDots(idx) {
+  document.querySelectorAll('#tabDots .tab-dot').forEach((d, i) => {
+    d.classList.toggle('active', i === idx);
+  });
 }
+
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+  currentTabIndex = TAB_IDS.indexOf(id);
+  updateTabDots(currentTabIndex);
+  // Hide swipe hint once user has interacted
+  const hint = document.getElementById('tabSwipeHint');
+  if (hint) hint.style.display = 'none';
+}
+
+function showTabByIndex(idx) {
+  const id = TAB_IDS[idx];
+  const btn = document.querySelectorAll('.tab-btn')[idx];
+  showTab(id, btn);
+  // Scroll tab into view on mobile
+  btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+}
+
+// Swipe on the tab content area
+(function() {
+  let startX = 0;
+  const tabSection = document.getElementById('services');
+  tabSection.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+  tabSection.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - startX;
+    if (Math.abs(dx) > 50) {
+      const next = dx < 0
+        ? Math.min(currentTabIndex + 1, TAB_IDS.length - 1)
+        : Math.max(currentTabIndex - 1, 0);
+      if (next !== currentTabIndex) showTabByIndex(next);
+    }
+  }, { passive: true });
+})();
 
 function toggleAcc(header){
   const body = header.nextElementSibling;
@@ -1276,6 +1386,7 @@ document.querySelectorAll('.info-card,.contact-card').forEach(card => {
   });
 });
 </script>
+
 <!-- ── FLOATING WHATSAPP ── -->
 <style>
 .wa-float {
