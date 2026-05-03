@@ -320,6 +320,47 @@ section.padded { padding:7rem 2.5rem; position:relative; z-index:1; }
 }
 .condition-tag:hover { border-color:var(--green-border); color:var(--green); background:var(--green-dim); }
 
+/* ── DESKTOP/MOBILE VISIBILITY HELPERS ── */
+.desktop-only { display: block; }
+.mobile-only  { display: none; }
+
+/* ── MOBILE SPECIALTY CARDS ── */
+.mobile-specialties { display: flex; flex-direction: column; gap: 1.2rem; }
+.specialty-card {
+  background: var(--bg);
+  border: 1.5px solid var(--border2);
+  border-radius: 20px;
+  padding: 1.6rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.specialty-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.specialty-icon {
+  width: 48px; height: 48px; flex-shrink: 0;
+  background: var(--green-dim);
+  border: 1px solid var(--green-border);
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+}
+.specialty-label {
+  font-size: 0.62rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--green-mid);
+  margin-bottom: 0.2rem;
+}
+.specialty-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.2rem; font-weight: 400; color: var(--text);
+}
+.specialty-desc {
+  font-size: 0.86rem; color: var(--muted);
+  line-height: 1.8; margin-bottom: 1.2rem;
+}
+
 /* ── TAB DOTS (mobile only) ── */
 .tab-dots {
   display: none;
@@ -644,6 +685,11 @@ footer p { font-size:0.73rem; color:rgba(255,255,255,0.42); letter-spacing:0.06e
   .stat-label { font-size: 0.6rem; letter-spacing: 0.08em; }
 
   /* ── SECTIONS ── */
+  /* ── DESKTOP\/MOBILE FLIP ── */
+  .desktop-only { display: none !important; }
+  .mobile-only  { display: flex !important; }
+  .mobile-specialties { display: flex !important; }
+
   section.padded { padding: 3.5rem 1.2rem; }
   .section-title { font-size: 1.75rem; margin-bottom: 2rem; }
 
@@ -657,9 +703,7 @@ footer p { font-size:0.73rem; color:rgba(255,255,255,0.42); letter-spacing:0.06e
   .accordion-header h3 { font-size: 1.05rem; }
   .accordion-body { padding: 1.2rem; }
 
-  /* ── TAB DOTS visible on mobile ── */
-  .tab-dots { display: flex; }
-  .tab-swipe-hint { display: flex; }
+
 
   /* ── GALLERY ── */
   .gallery-grid {
@@ -912,29 +956,17 @@ footer p { font-size:0.73rem; color:rgba(255,255,255,0.42); letter-spacing:0.06e
     <span class="section-eyebrow reveal">Nos spécialités</span>
     <h2 class="section-title reveal">Des soins adaptés<br>à chaque <em>patient</em></h2>
 
-    <div class="tabs-wrapper">
+    <!-- Desktop tabs -->
+    <div class="tabs-wrapper desktop-only">
       <div class="tabs" id="tabsBar">
         <button class="tab-btn active" onclick="showTab('hypno',this)">Hypnothérapie</button>
         <button class="tab-btn" onclick="showTab('esthet',this)">Médecine Esthétique</button>
         <button class="tab-btn" onclick="showTab('chinoise',this)">Médecine Chinoise</button>
       </div>
-
-      <!-- dots shown only on mobile -->
-      <div class="tab-dots" id="tabDots">
-        <button class="tab-dot active" onclick="showTabByIndex(0)"></button>
-        <button class="tab-dot" onclick="showTabByIndex(1)"></button>
-        <button class="tab-dot" onclick="showTabByIndex(2)"></button>
-      </div>
-
-      <!-- swipe hint shown only on mobile -->
-      <div class="tab-swipe-hint" id="tabSwipeHint">
-        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-        Glissez pour voir plus
-        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-      </div>
     </div>
 
-    <div id="tab-hypno" class="tab-content active">
+    <!-- Desktop tab contents -->
+    <div id="tab-hypno" class="tab-content active desktop-only">
       <div style="max-width:660px">
         <p class="service-intro">Une thérapie douce qui agit sur l'esprit pour traiter des troubles psychologiques et physiques. Les séances sont personnalisées — une seule peut suffire, ou plusieurs selon les besoins.</p>
         <div class="conditions-grid">
@@ -947,73 +979,69 @@ footer p { font-size:0.73rem; color:rgba(255,255,255,0.42); letter-spacing:0.06e
         </div>
       </div>
     </div>
-    <div id="tab-esthet" class="tab-content">
+    <div id="tab-esthet" class="tab-content desktop-only">
       <p class="service-intro">Des soins médicaux esthétiques pour ralentir le vieillissement et sublimer votre apparence naturellement.</p>
-      <div class="accordion">
-        <div class="accordion-header" onclick="toggleAcc(this)">
-          <h3>Mésolift</h3><div class="accordion-arrow">+</div>
-        </div>
-        <div class="accordion-body">
-          <p>Injection de vitamines et d'acide hyaluronique pour nourrir la peau et booster son éclat naturel.</p>
-          <div class="meta-tags">
-            <span class="meta-tag">Visage · Cou · Décolleté · Mains</span>
-            <span class="meta-tag">3 à 5 séances</span>
-            <span class="meta-tag">Entretien 2×/an</span>
-          </div>
-        </div>
-      </div>
-      <div class="accordion">
-        <div class="accordion-header" onclick="toggleAcc(this)">
-          <h3>Peeling</h3><div class="accordion-arrow">+</div>
-        </div>
-        <div class="accordion-body">
-          <p>Soin exfoliant pour corriger le vieillissement, les taches, l'acné et les irrégularités de peau.</p>
-          <ul><li>Rides & ridules</li><li>Acné & cicatrices</li><li>Teint terne</li><li>Vergetures</li></ul>
-          <div class="meta-tags">
-            <span class="meta-tag">4 à 5 séances</span>
-            <span class="meta-tag">Combinable avec d'autres soins</span>
-          </div>
-        </div>
-      </div>
-      <div class="accordion">
-        <div class="accordion-header" onclick="toggleAcc(this)">
-          <h3>Injections</h3><div class="accordion-arrow">+</div>
-        </div>
-        <div class="accordion-body">
-          <p><strong style="color:var(--text)">Acide Hyaluronique</strong> — Comble les rides et sillons. Résultat immédiat, dure 6 à 12 mois.</p>
-          <p><strong style="color:var(--text)">Botox</strong> — Lisse le front et les pattes d'oie. Effet en 2 jours, dure 4 à 6 mois.</p>
-        </div>
-      </div>
+      <div class="accordion"><div class="accordion-header" onclick="toggleAcc(this)"><h3>Mésolift</h3><div class="accordion-arrow">+</div></div><div class="accordion-body"><p>Injection de vitamines et d'acide hyaluronique pour nourrir la peau et booster son éclat naturel.</p><div class="meta-tags"><span class="meta-tag">Visage · Cou · Décolleté · Mains</span><span class="meta-tag">3 à 5 séances</span><span class="meta-tag">Entretien 2×/an</span></div></div></div>
+      <div class="accordion"><div class="accordion-header" onclick="toggleAcc(this)"><h3>Peeling</h3><div class="accordion-arrow">+</div></div><div class="accordion-body"><p>Soin exfoliant pour corriger le vieillissement, les taches, l'acné et les irrégularités de peau.</p><ul><li>Rides & ridules</li><li>Acné & cicatrices</li><li>Teint terne</li><li>Vergetures</li></ul><div class="meta-tags"><span class="meta-tag">4 à 5 séances</span><span class="meta-tag">Combinable avec d'autres soins</span></div></div></div>
+      <div class="accordion"><div class="accordion-header" onclick="toggleAcc(this)"><h3>Injections</h3><div class="accordion-arrow">+</div></div><div class="accordion-body"><p><strong style="color:var(--text)">Acide Hyaluronique</strong> — Comble les rides et sillons. Résultat immédiat, dure 6 à 12 mois.</p><p><strong style="color:var(--text)">Botox</strong> — Lisse le front et les pattes d'oie. Effet en 2 jours, dure 4 à 6 mois.</p></div></div>
     </div>
-    <div id="tab-chinoise" class="tab-content">
+    <div id="tab-chinoise" class="tab-content desktop-only">
       <p class="service-intro">Une médecine ancestrale naturelle, sans effets secondaires, pour rééquilibrer le corps et l'esprit.</p>
-      <div class="accordion">
-        <div class="accordion-header" onclick="toggleAcc(this)">
-          <h3>Acupuncture</h3><div class="accordion-arrow">+</div>
+      <div class="accordion"><div class="accordion-header" onclick="toggleAcc(this)"><h3>Acupuncture</h3><div class="accordion-arrow">+</div></div><div class="accordion-body"><p>Technique utilisant de fines aiguilles sur des points précis du corps pour soulager naturellement.</p><ul><li>Sciatique & lumbago</li><li>Migraines</li><li>Stress & anxiété</li><li>Insomnie</li><li>Troubles hormonaux</li><li>Tabac & dépendances</li></ul></div></div>
+      <div class="accordion"><div class="accordion-header" onclick="toggleAcc(this)"><h3>Ventouses</h3><div class="accordion-arrow">+</div></div><div class="accordion-body"><p>Technique naturelle utilisant des coupelles pour stimuler la circulation sanguine et libérer les blocages.</p><ul><li>Douleurs musculaires</li><li>Rhumatismes</li><li>Tendinites</li><li>Eczéma & psoriasis</li><li>Relaxation</li><li>Détoxification</li></ul></div></div>
+      <div class="accordion"><div class="accordion-header" onclick="toggleAcc(this)"><h3>Auriculopuncture</h3><div class="accordion-arrow">+</div></div><div class="accordion-body"><p>Acupuncture pratiquée sur l'oreille, qui reflète l'ensemble des organes du corps.</p><ul><li>Perte de poids</li><li>Douleurs chroniques</li><li>Allergies</li><li>Tabac & alcool</li><li>Stress</li><li>Troubles du sommeil</li></ul></div></div>
+    </div>
+
+    <!-- Mobile: 3 stacked specialty cards, no tabs, no dots, no sliding -->
+    <div class="mobile-specialties mobile-only">
+
+      <div class="specialty-card">
+        <div class="specialty-header">
+          <div class="specialty-icon">🧠</div>
+          <div>
+            <div class="specialty-label">Spécialité 01</div>
+            <h3 class="specialty-title">Hypnothérapie</h3>
+          </div>
         </div>
-        <div class="accordion-body">
-          <p>Technique utilisant de fines aiguilles sur des points précis du corps pour soulager naturellement.</p>
-          <ul><li>Sciatique & lumbago</li><li>Migraines</li><li>Stress & anxiété</li><li>Insomnie</li><li>Troubles hormonaux</li><li>Tabac & dépendances</li></ul>
+        <p class="specialty-desc">Une thérapie douce qui agit sur l'esprit pour traiter des troubles psychologiques et physiques. Les séances sont personnalisées — une seule peut suffire, ou plusieurs selon les besoins.</p>
+        <div class="conditions-grid">
+          <div class="condition-tag">Stress & mal-être</div>
+          <div class="condition-tag">Phobies & paniques</div>
+          <div class="condition-tag">Troubles du sommeil</div>
+          <div class="condition-tag">Tabac & dépendances</div>
+          <div class="condition-tag">Douleurs chroniques</div>
+          <div class="condition-tag">Troubles alimentaires</div>
         </div>
       </div>
-      <div class="accordion">
-        <div class="accordion-header" onclick="toggleAcc(this)">
-          <h3>Ventouses</h3><div class="accordion-arrow">+</div>
+
+      <div class="specialty-card">
+        <div class="specialty-header">
+          <div class="specialty-icon">✨</div>
+          <div>
+            <div class="specialty-label">Spécialité 02</div>
+            <h3 class="specialty-title">Médecine Esthétique</h3>
+          </div>
         </div>
-        <div class="accordion-body">
-          <p>Technique naturelle utilisant des coupelles pour stimuler la circulation sanguine et libérer les blocages.</p>
-          <ul><li>Douleurs musculaires</li><li>Rhumatismes</li><li>Tendinites</li><li>Eczéma & psoriasis</li><li>Relaxation</li><li>Détoxification</li></ul>
-        </div>
+        <p class="specialty-desc">Des soins médicaux esthétiques pour ralentir le vieillissement et sublimer votre apparence naturellement.</p>
+        <div class="accordion"><div class="accordion-header" onclick="toggleAcc(this)"><h3>Mésolift</h3><div class="accordion-arrow">+</div></div><div class="accordion-body"><p>Injection de vitamines et d'acide hyaluronique pour nourrir la peau et booster son éclat naturel.</p><div class="meta-tags"><span class="meta-tag">Visage · Cou · Décolleté · Mains</span><span class="meta-tag">3 à 5 séances</span><span class="meta-tag">Entretien 2×/an</span></div></div></div>
+        <div class="accordion"><div class="accordion-header" onclick="toggleAcc(this)"><h3>Peeling</h3><div class="accordion-arrow">+</div></div><div class="accordion-body"><p>Soin exfoliant pour corriger le vieillissement, les taches, l'acné et les irrégularités de peau.</p><ul><li>Rides & ridules</li><li>Acné & cicatrices</li><li>Teint terne</li><li>Vergetures</li></ul><div class="meta-tags"><span class="meta-tag">4 à 5 séances</span><span class="meta-tag">Combinable</span></div></div></div>
+        <div class="accordion"><div class="accordion-header" onclick="toggleAcc(this)"><h3>Injections</h3><div class="accordion-arrow">+</div></div><div class="accordion-body"><p><strong style="color:var(--text)">Acide Hyaluronique</strong> — Comble les rides et sillons. Résultat immédiat, dure 6 à 12 mois.</p><p><strong style="color:var(--text)">Botox</strong> — Lisse le front et les pattes d'oie. Effet en 2 jours, dure 4 à 6 mois.</p></div></div>
       </div>
-      <div class="accordion">
-        <div class="accordion-header" onclick="toggleAcc(this)">
-          <h3>Auriculopuncture</h3><div class="accordion-arrow">+</div>
+
+      <div class="specialty-card">
+        <div class="specialty-header">
+          <div class="specialty-icon">🌿</div>
+          <div>
+            <div class="specialty-label">Spécialité 03</div>
+            <h3 class="specialty-title">Médecine Chinoise</h3>
+          </div>
         </div>
-        <div class="accordion-body">
-          <p>Acupuncture pratiquée sur l'oreille, qui reflète l'ensemble des organes du corps.</p>
-          <ul><li>Perte de poids</li><li>Douleurs chroniques</li><li>Allergies</li><li>Tabac & alcool</li><li>Stress</li><li>Troubles du sommeil</li></ul>
-        </div>
+        <p class="specialty-desc">Une médecine ancestrale naturelle, sans effets secondaires, pour rééquilibrer le corps et l'esprit.</p>
+        <div class="accordion"><div class="accordion-header" onclick="toggleAcc(this)"><h3>Acupuncture</h3><div class="accordion-arrow">+</div></div><div class="accordion-body"><p>Technique utilisant de fines aiguilles sur des points précis du corps pour soulager naturellement.</p><ul><li>Sciatique & lumbago</li><li>Migraines</li><li>Stress & anxiété</li><li>Insomnie</li><li>Troubles hormonaux</li><li>Tabac & dépendances</li></ul></div></div>
+        <div class="accordion"><div class="accordion-header" onclick="toggleAcc(this)"><h3>Ventouses</h3><div class="accordion-arrow">+</div></div><div class="accordion-body"><p>Technique naturelle utilisant des coupelles pour stimuler la circulation sanguine et libérer les blocages.</p><ul><li>Douleurs musculaires</li><li>Rhumatismes</li><li>Tendinites</li><li>Eczéma & psoriasis</li><li>Relaxation</li><li>Détoxification</li></ul></div></div>
+        <div class="accordion"><div class="accordion-header" onclick="toggleAcc(this)"><h3>Auriculopuncture</h3><div class="accordion-arrow">+</div></div><div class="accordion-body"><p>Acupuncture pratiquée sur l'oreille, qui reflète l'ensemble des organes du corps.</p><ul><li>Perte de poids</li><li>Douleurs chroniques</li><li>Allergies</li><li>Tabac & alcool</li><li>Stress</li><li>Troubles du sommeil</li></ul></div></div>
       </div>
+
     </div>
   </div>
 </section>
